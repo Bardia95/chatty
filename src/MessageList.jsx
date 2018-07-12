@@ -10,9 +10,7 @@ function generateRandomString() {
       a.push( chars.charAt(Math.floor(Math.random() * charsLength)) );
     }
     return a.join('');
-}
-
-
+  }
 
 function MessageList(props) {
   const messageList = props.messages.map(message => {
@@ -21,7 +19,6 @@ function MessageList(props) {
   return (
     <main className="messages">
       {messageList}
-      <Notification />
     </main>
 
   );
