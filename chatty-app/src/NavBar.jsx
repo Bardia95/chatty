@@ -4,7 +4,7 @@ function NavBar(props) {
   return (
     <nav className="navbar">
       <a href="/" className="navbar-brand">Chatty</a>
-      <p> Users Online: {Object.keys(props.clients).length} </p>
+      <p className="navbar-users"> Users Online: {Object.keys(props.clients).length} </p>
     </nav>
   );
 }
