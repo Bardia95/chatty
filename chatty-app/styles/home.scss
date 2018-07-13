@@ -2,16 +2,15 @@ h1 {
   color: tomato;
 }
 body {
-  background: white;
-  color: black;
+  background: #202020  ;
+  color: white;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   margin: 70px 0;
 }
 
 .chatbar {
-  background: tomato;
-  border-top: 1px solid black;
+  background: #22B14C;
   bottom: 0;
   display: flex;
   left: 0;
@@ -22,7 +21,6 @@ body {
 
 .chatbar-message,
 .chatbar-username {
-  border: 1px solid black;
   display: block;
   height: 40px;
   line-height: 40px;
@@ -41,6 +39,12 @@ body {
 .message {
   display: flex;
   padding: 5px;
+}
+
+.notification {
+  display: flex;
+  padding: 5px;
+  color: #22B14C;
 }
 
 .message.system {
@@ -65,8 +69,7 @@ body {
 }
 
 .navbar {
-  background: tomato;
-  border-bottom: 1px solid black;
+  background: #22B14C;
   height: 60px;
   left: 0;
   padding: 0 10px;
@@ -85,10 +88,11 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+  color: white
 }
 
 .navbar-users {
-  color: inherit;
+  color: white;
   display: block;
   float: right;
   font-weight: 700;

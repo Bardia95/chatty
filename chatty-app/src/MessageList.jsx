@@ -15,8 +15,22 @@ function generateRandomString() {
 
 function MessageList(props) {
   const messageList = props.messages.map(message => {
-    const userColor = props.clients[message.data.userId].color;
-    return <Message key={generateRandomString()} userColor={userColor} type= {message.type} oldName= {message.data.oldName} newName = {message.data.currentUser} username={message.data.username} content={message.data.content} />;
+    console.log('message prop', message);
+    let userColor = 0;
+    if (message.type !== 'notification') {
+      userColor = props.clients[message.data.userId].color;
+    }
+    return (
+      <Message
+        key={generateRandomString()}
+        userColor={userColor}
+        type= {message.type}
+        oldName= {message.data.oldName}
+        newName = {message.data.currentUser}
+        username={message.data.username}
+        content={message.data.content}
+      />
+    )
   });
   return (
     <main className="messages">
