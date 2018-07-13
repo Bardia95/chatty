@@ -26,4 +26,4 @@ open http://localhost:3000
 
 ### Screenshots
 
-!["Screenshot of chatty-app"]()
+!["Screenshot of chatty-app"](https://github.com/Bardia95/chatty/blob/master/public/ChattyScreenshot.png)
