@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Message from "./Message.jsx";
-import Notification from "./Notification.jsx";
 
 function generateRandomString() {
     var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -12,9 +11,12 @@ function generateRandomString() {
     return a.join('');
   }
 
+
+
 function MessageList(props) {
   const messageList = props.messages.map(message => {
-    return <Message key={generateRandomString()} username={message.username} content={message.content} />;
+    const userColor = props.clients[message.data.userId].color;
+    return <Message key={generateRandomString()} userColor={userColor} type= {message.type} oldName= {message.data.oldName} newName = {message.data.currentUser} username={message.data.username} content={message.data.content} />;
   });
   return (
     <main className="messages">

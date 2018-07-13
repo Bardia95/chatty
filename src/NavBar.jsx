@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 
-class NavBar extends Component {
-  render() {
-    return (
-      <nav className="navbar">
-        <a href="/" className="navbar-brand">Chatty</a>
-      </nav>
-    );
-  }
+function NavBar(props) {
+  return (
+    <nav className="navbar">
+      <a href="/" className="navbar-brand">Chatty</a>
+      <p> Users Online: {Object.keys(props.clients).length} </p>
+    </nav>
+  );
 }
 export default NavBar;
 

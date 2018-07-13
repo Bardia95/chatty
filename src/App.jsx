@@ -9,8 +9,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: 'Bob', oldName: ''},
+      currentUser: {name: 'Anonymous', oldName: ''},
       messages: [],
+      id: '',
+      myself: {
+        id: '',
+        color: '',
+      },
+      clients: {}
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -19,7 +25,8 @@ class App extends Component {
     const msg = {
       type: "message",
       content: message.content,
-      username: message.username
+      username: message.username,
+      userId: this.state.id
     };
     this.socket.send(JSON.stringify(msg));
   }
@@ -30,35 +37,56 @@ class App extends Component {
       oldName: this.state.currentUser.name,
       currentUser: username
     }
-    console.log("changeUser notification", notification);
+    this.setState({
+      currentUser: {
+        name: username,
+        oldName: this.state.currentUser.name,
+      }
+    })
     this.socket.send(JSON.stringify(notification));
   }
 
 
+
   componentDidMount() {
+
     this.socket = new WebSocket("ws://localhost:3001");
     this.socket.onmessage = e => {
+      let newState = Object.assign({}, this.state)
       const msg = JSON.parse(e.data);
-      console.log("componentDidMount msg", msg)
       switch (msg.type) {
-        case "message":
-          const newMessage = msg.data
+        case 'disconnection':
+          delete newState.clients[msg.data.id]
+          this.setState(newState);
+        break
+          break;
+        case 'setup':
+          const clients = msg.data.connectedClients;
+          const myself = clients[msg.data.id];
           this.setState({
-            messages: this.state.messages.concat(msg.data)
+            clients: clients,
+            myself: myself,
+            id: myself.id,
+            color: myself.color,
+          })
+        break
+        case "connection":
+          if (msg.data.id !== this.state.id) {
+            newState.clients[msg.data.id] = msg.data;
+            this.setState(newState);
+          }
+          break;
+        case "message":
+          this.setState({
+            messages: this.state.messages.concat(msg)
           });
           break;
         case "notification":
-          const newNotification = msg.data
-          console.log("newNotification", newNotification)
+          const newNotification = msg.data;
           this.setState({
-             currentUser: {
-              name: newNotification.currentUser,
-              oldName: newNotification.oldName
-            }
+            messages: this.state.messages.concat(msg)
            })
-          console.log("componentDidMount notification state", this.state)
-          break
-
+          break;
         default:
       };
     };
@@ -69,8 +97,8 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <NavBar />
-        <MessageList messages ={this.state.messages}/>
+        <NavBar clients={this.state.clients}/>
+        <MessageList messages={this.state.messages} clients={this.state.clients} />
         <ChatBar username={this.state.currentUser.name}  addMessage={this.addMessage} changeUser={this.changeUser}/>
       </div>
     );
